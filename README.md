@@ -6,6 +6,8 @@ A rule-based analyzer that parses **G1GC logs** and:
 - Flags common performance-degrading patterns (e.g., **to-space exhausted**, **humongous allocations**, **concurrent mode failure**, **long remark**)
 - Produces **actionable tuning suggestions** with evidence lines
 
+![](./assets/example.png)
+
 ### Docs (KR / EN)
 
 - **Korean**: `docs/README.ko.md`
