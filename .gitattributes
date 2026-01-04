@@ -1,0 +1,9 @@
+# Normalize line endings in repo to LF; checkout will follow core.autocrlf behavior on Windows.
+* text=auto eol=lf
+
+# Ensure Windows scripts keep CRLF if you add them later (optional)
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+
