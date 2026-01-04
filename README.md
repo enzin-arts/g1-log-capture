@@ -10,8 +10,12 @@ A rule-based analyzer that parses **G1GC logs** and:
 
 ### Docs (KR / EN)
 
-- **Korean**: `docs/README.ko.md`
-- **English**: `docs/README.en.md`
+- **Korean**: [docs/README.ko.md](docs/README.ko.md)
+- **English**: [docs/README.en.md](docs/README.en.md)
+
+See also:
+
+- **Rule trigger conditions**: [docs/README.en.md#rule-trigger-conditions](docs/README.en.md#rule-trigger-conditions) / [docs/README.ko.md#진단이-뜨는-조건rule-trigger-conditions](docs/README.ko.md#진단이-뜨는-조건rule-trigger-conditions)
 
 ### Quickstart
 

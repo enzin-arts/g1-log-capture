@@ -49,6 +49,51 @@ g1gc-advisor --log gc.log --max-pause-ms 200 --json-out report.json
 - **Long Remark**
   - Advice: consider `-XX:+ParallelRefProcEnabled`, verify `-XX:ParallelGCThreads`.
 
+### Rule trigger conditions
+
+This project is currently **rule-based**. Each finding is produced by scanning parsed events for **keywords** and **simple thresholds**.
+
+Notes:
+
+- A “pause event” is recognized when a line contains `Pause ... <N>ms` and we take the **last** `...ms` on the line as the pause duration.
+- The “target pause” is `--max-pause-ms` (conceptually `MaxGCPauseMillis`).
+
+#### `g1.over_budget_summary` (Pause budget summary)
+
+- **Triggers when**: at least one pause event has `duration_ms > max_pause_ms`.
+- **Evidence**: histogram of over-budget pause “names” (best-effort extracted from the `Pause ...` part).
+- **Severity**:
+  - `warn` if over-budget count < 5
+  - `critical` otherwise
+
+#### `g1.to_space_exhausted` (To-space exhausted / Evacuation Failure)
+
+- **Triggers when**: a log line contains either:
+  - `to-space exhausted`, or
+  - `evacuation failure`
+- **Severity**: always `critical` (this usually correlates with severe STW spikes / Full GC risk).
+
+#### `g1.concurrent_mode_failure` (Concurrent Mode Failure)
+
+- **Triggers when**: a log line contains `concurrent mode failure`.
+- **Severity**: always `critical`.
+
+#### `g1.humongous` (Humongous allocations)
+
+- **Triggers when**: a log line contains `humongous` (case-insensitive).
+- **Severity**:
+  - `warn` if matches < 5
+  - `critical` otherwise
+
+#### `g1.long_remark` (Long Pause Remark)
+
+- **Triggers when**:
+  - an event is recognized as `Pause Remark`, and
+  - `duration_ms >= max(max_pause_ms, 200ms)`
+- **Severity**:
+  - `warn` if long remarks < 3
+  - `critical` otherwise
+
 ### How to add new rules
 
 Edit `src/gccapture/rules.py` and add a new `Rule` implementation, then register it in `DEFAULT_RULES`.
